@@ -1,5 +1,5 @@
 GCC=g++-4.8
-CFLAGS= -lm -lcrypt -O2 -std=c++11 -pipe -DONLINE_JUDGE -g -Ddebug
+CFLAGS= -lm -lcrypt -O2 -std=c++11 -pipe -DONLINE_JUDGE -g 
 EXE=ans
 SRC=./
 TESTSCRIPT=./tester.sh

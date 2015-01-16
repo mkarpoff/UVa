@@ -1,20 +1,21 @@
-/* UVa problem: <number>
+/* UVa problem: 10608
  *
- * Topic: <topic>
+ * Topic: Data Structures
  *
- * Level: trivial/non-trivial
+ * Level: trivial
  * 
  * Brief problem description: 
  *
- *   ...
+ *   It is essentially finding the largest connected graph segment
  *
  * Solution Summary:
  *
- *   Algorithmic idea, data structures ...
+ *   Implemented an adjacency list sacrificing time in favour of space over 
+ *   an adjacency matrix which is faster.
  *
  * Used Resources:
  *
- *   ...
+ *   "Competitive Programming 3" - Steven Halim (pg 49-50)
  *
  * I hereby certify that I have produced the following solution myself 
  * using the resources listed above in accordance with the CMPUT 403 
@@ -37,6 +38,7 @@ si * createAdjacencyList(int numPairs);
 void populateAdjacencyList(int numPairs, si * list);
 
 int findLargestGroupSize(int size, si * list);
+int getFloodSize(int start, int size, bool * varray, si * list);
 
 int main() {
 	int testToRun = getInt();
@@ -111,7 +113,10 @@ int findLargestGroupSize(int size, si * list) {
 	}
 	for( int i = 0; i < size; ++i ) {
 		if (! visited[i]) {
-			largestfound = getFloodSize(i, size, visited, si * list);
+			int found = getFloodSize(i, size, visited, list);
+			if (found > largestfound) {
+				largestfound = found;
+			}
 		}
 	}
 	delete [] visited;
@@ -121,7 +126,7 @@ int findLargestGroupSize(int size, si * list) {
 	return largestfound;
 }
 
-void getFloodSize(int start, int size, bool * varray, si * list) {
+int getFloodSize(int start, int size, bool * varray, si * list) {
 	int floodsize = 0;
 	int cur;
 	set<int> openset;
@@ -129,6 +134,13 @@ void getFloodSize(int start, int size, bool * varray, si * list) {
 	while(openset.size() > 0) {
 		++floodsize;
 		cur = (*openset.begin());
-		// TODO Pickup here
+		openset.erase(cur);
+		varray[cur] = true;
+		for( auto neighbor:list[cur]) {
+			if (!varray[neighbor]) {
+				openset.insert(neighbor);
+			}
+		}
 	}	
+	return floodsize;
 }
