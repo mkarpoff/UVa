@@ -1,6 +1,6 @@
 #!/bin/bash
 EXE=ans
-TESTFILES=test_files/*
+TESTFILES=TestFiles/*
 for f in $TESTFILES
 do
 		echo "================================================"

@@ -33,8 +33,8 @@
 using namespace std;
 
 void read_input(set<string> &words);
-void sanitize_word(string & orig, string & clean);
-void strip_punc(string &input, string &output);
+void sanitize_word(string & orig, vector<string> & clean);
+void strip_punc(string &input, vector<string> &output);
 void print_soln(set<string> & words);
 
 int main() {
@@ -47,28 +47,41 @@ int main() {
 void read_input(set<string> &words) {
 	do {
 		string input;
-		string clean;
+		vector<string> clean;
 		
 		cin >> input;
 
 		sanitize_word(input, clean);
-		if (clean.size() > 0) {
-			words.insert(clean);
+		for (auto w: clean) {
+			words.insert(w);
 		}
 	}
 	while (cin);
 }
 
-void sanitize_word(string &orig, string & clean) {
+void sanitize_word(string &orig, vector<string> & clean) {
  	transform( orig.begin(), orig.end(), orig.begin(), ::tolower);
  	strip_punc(orig, clean);
 }
 
-void strip_punc(string &input, string &output) {
+void strip_punc(string &input, vector<string> &output) {
+	string clean;
 	for( auto x:input) {
 		if( ((int) x) <= ((int) 'z') && ((int) 'a') <= ((int) x)) {
-			output.push_back(x);
+			clean.push_back(x);
+		} else {
+			if (clean.size() > 0) {
+				output.push_back(clean);
+				clean = string();
+			}
 		}
+		
+		/*else	if( ((int) x) <= ((int) '9') && ((int) '0') <= ((int) x)) {
+			output.push_back(x);
+		}*/
+	}
+	if (clean.size() > 0) {
+		output.push_back(clean);
 	}
 }
 
