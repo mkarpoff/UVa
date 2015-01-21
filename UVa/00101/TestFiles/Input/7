@@ -1,0 +1,23 @@
+5
+pile 0 over 3
+pile 1 over 0
+pile 1 onto 4
+pile 0 over 1
+pile 3 onto 2
+move 2 onto 2
+move 1 over 4
+move 3 onto 0
+move 3 onto 4
+pile 4 onto 4
+move 0 over 2
+move 2 over 1
+pile 4 over 3
+pile 3 onto 2
+pile 1 over 4
+pile 3 onto 4
+move 0 onto 3
+pile 2 onto 1
+move 3 over 1
+pile 3 onto 3
+pile 0 over 4
+quit

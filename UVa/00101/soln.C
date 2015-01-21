@@ -6,15 +6,17 @@
  * 
  * Brief problem description: 
  *
- *   ...
+ *   Make an easily maliable for moving data around
  *
  * Solution Summary:
  *
- *   Algorithmic idea, data structures ...
+ *  Stored a values in an array of vectors. Use a array of ints as a lookup
+ *	list for which vector is the best. In retrospect using stacks instead of
+ *	vectors would be better.
  *
  * Used Resources:
  *
- *   ...
+ *  Nothing unique
  *
  * I hereby certify that I have produced the following solution myself 
  * using the resources listed above in accordance with the CMPUT 403 

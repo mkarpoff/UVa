@@ -9,9 +9,8 @@ DIFFPROG=$(command -v colordiff)
 if [ "$DIFFPROG" == "" ];	then
 	DIFFPROG=diff
 fi
-
-for f in {1..5};
-do
+NUMTESTS=$(ls TestFiles/Input/ | wc -l)
+for f in $(seq 1 $NUMTESTS); do
 		echo "$TESTBREAK"
 		./$EXE < $Input$f > temp
 		echo "TEST: $f"
@@ -47,5 +46,5 @@ do
 			echo "Passed"
 		fi
 		rm -f temp
-		echo "$TESTBREAK"
 done
+echo "$TESTBREAK"
