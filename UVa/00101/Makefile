@@ -10,7 +10,7 @@ $(EXE): $(SRC)*.C
 		$(GCC) $(CFLAGS) -o $(EXE) $(SRC)*.C
 
 run: $(EXE)
-	./$(EXE) < TestFiles<input01
+	./$(EXE) < TestFiles/input01 | less
 
 test: $(EXE)
 	./$(TESTSCRIPT)
