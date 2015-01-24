@@ -1,0 +1,3 @@
+-isalpha(char c) checks if char is alpha
+-cin.peek() show next cin without consumption
+
