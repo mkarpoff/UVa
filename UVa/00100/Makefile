@@ -2,7 +2,7 @@ GCC=g++-4.8
 CFLAGS= -lm -lcrypt -O2 -std=c++11 -pipe -DONLINE_JUDGE
 EXE=ans
 SRC=./soln
-TESTSCRIPT=tester.sh
+TESTSCRIPT=tester
 
 all: $(EXE)
 
@@ -15,7 +15,7 @@ run: $(EXE)
 	./$(EXE) < TestFiles/input04
 
 test: $(EXE)
-	./$(TESTSCRIPT)
+	$(TESTSCRIPT)
 
 fresh: clean all
 

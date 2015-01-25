@@ -2,7 +2,7 @@ GCC=g++-4.8
 CFLAGS= -lm -lcrypt -O2 -std=c++11 -pipe -DONLINE_JUDGE
 EXE=ans
 SRC=./
-TESTSCRIPT=./tester.sh
+TESTSCRIPT=tester
 
 all: $(EXE)
 
@@ -10,10 +10,10 @@ $(EXE): $(SRC)*.C
 		$(GCC) $(CFLAGS) -o $(EXE) $(SRC)*.C
 
 run: $(EXE)
-	./$(EXE) < TestFiles/input01 | less
+	./$(EXE) < TestFiles/Input/1 | less
 
 test: $(EXE)
-	./$(TESTSCRIPT)
+	$(TESTSCRIPT)
 
 fresh: clean all
 

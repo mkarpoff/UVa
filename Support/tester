@@ -1,0 +1,84 @@
+#!/bin/bash
+
+Input=TestFiles/Input/
+Output=TestFiles/Output/
+
+TESTBREAK="================================================\n"
+
+	RED='\033[1;31m'          # Red
+	GREEN='\033[1;32m'        # Green
+	ORANGE='\033[0;33m'       # Yellow
+	BLUE='\033[1;34m'         # Blue
+	PURPLE='\033[0;35m'       # Purple
+	CYAN='\033[1;36m'         # Cyan
+	WHITE='\033[0;37m'  
+
+if [[ $1 == "" ]]; then
+	EXE=ans
+else
+	EXE=$1
+fi
+if [ ! -f $EXE ]; then
+	printf "${RED}No program named (${BLUE} $EXE ${RED}) found${WHITE}\n"
+	exit
+fi
+if [ ! -d $Input ]; then
+	printf "${RED}No input folder named (${BLUE} TestFiles/Input/ ${RED})${WHITE}\n"
+	exit
+fi
+if [ ! -d $Output ]; then
+	printf "${RED}No output folder named (${BLUE} TestFiles/Output/ ${RED})${WHITE}\n"
+	exit
+fi
+
+
+printf "Program:${BLUE} $EXE${WHITE}\n"
+DIFFPROG=$(command -v colordiff)
+if [ "$DIFFPROG" == "" ];	then
+	DIFFPROG=diff
+fi
+NUMTESTS=$(ls TestFiles/Input/ | wc -l)
+printf "Num tests: ${RED}$NUMTESTS${WHITE}\n"
+for f in $(ls $Input); do
+		printf "$TESTBREAK"
+		./$EXE < $Input$f > temp
+		printf "TEST: ${RED}$f${RED}$WHITE\t"
+		if [ ! -f $Output$f ]; then
+			printf "${RED}No matching output file for input file (${BLUE} $f ${RED})\n${WHITE}"
+		else
+			EXP=$Output$f
+			DIFF=$(diff temp $EXP)
+			LLE=$(wc -L $EXP | awk '{print $1}')
+			LLA=$(wc -L temp | awk '{print $1}')
+			COL=$LLA
+			if [ $LLE -gt $LLA ]; then
+				COL=$LLE
+			fi
+			COLSIZE=$COL
+			if [ $COLSIZE -gt 80 ]; then
+				COLSIZE="`tput cols`"
+				COL=$(expr $COLSIZE / 2)
+			elif [ $COLSIZE -lt 12 ]; then
+				COLSIZE=24
+				COL=12
+			else
+				COLSIZE=$(expr $COL \* 2)
+			fi
+			pad=$(printf '%0.1s' "-"{1..80})
+
+			if [ "$DIFF" != "" ]; then
+				printf "${RED}Failed${WHITE}\n"
+				printf "${BLUE}EXPECTED:${WHITE}"
+				printf "%*.*s" 0 $((COL - 12 )) "$pad"
+				printf "${RED}ACTUAL:${WHITE}\n"
+				$DIFFPROG -yW "$COLSIZE" $EXP temp
+				rm -f temp
+				printf "$TESTBREAK"
+				break
+			else
+				printf "${GREEN}Passed${WHITE}\n"
+			fi
+		fi
+		rm -f temp
+done
+printf "$TESTBREAK"
