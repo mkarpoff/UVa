@@ -1,20 +1,20 @@
-/* UVa problem: <number>
+/* UVa problem: 00599
  *
- * Topic: <topic>
+ * Topic: Data Structures
  *
- * Level: trivial/non-trivial
+ * Level: trivial
  * 
  * Brief problem description: 
  *
- *   ...
+ *   Count number of trees of size 2 or more and lone nodes
  *
  * Solution Summary:
  *
- *   Algorithmic idea, data structures ...
+ *   Used Adjacency matrix because the size is 26x26 max
  *
  * Used Resources:
  *
- *   ...
+ *   None
  *
  * I hereby certify that I have produced the following solution myself 
  * using the resources listed above in accordance with the CMPUT 403 
@@ -29,7 +29,8 @@
 
 using namespace std;
 
-bool adjmat[26][26] = {false};
+const int A = (int) 'A';
+bool adjmat[26][26];
 vector<int> convec;
 int trees;
 int cones;
@@ -47,14 +48,13 @@ int main() {
 			string t;
 			cin >> t >> ws;
 			int a,b;
-			char ac,bc;
 			bool f1 = false;
 			for ( char c: t) {
-				if (!isalpha(c) ) {
+				if (!isalpha(c) ) {;
 				} else if (f1) {
-					a = ((int) c) - ((int) 'A');
+					a = ((int) c) - A;
 				} else {
-					b = ((int) c) - ((int) 'A');
+					b = ((int) c) - A;
 					f1 = true;
 				}
 			}
@@ -68,13 +68,14 @@ int main() {
 			cin >> g >> ws;
 		}
 		string points;
-		cin >> points;
+		cin >> points >> ws;
 		for (char c: points) {
 			if (isalpha(c)) {
 				int i = ((int) c) - ((int) 'A');
 				convec.push_back(i);
 			}
 		}
+
 		/* Flood fill */
 		for( auto s: convec) {
 			if ( ! adjmat[s][s]) {
@@ -101,4 +102,5 @@ int main() {
 		}
 		cout << "There are " << trees << " tree(s) and " << cones << " acorn(s)." << endl;
 	}
+	return 0;
 }

@@ -1,0 +1,15 @@
+1
+(A,B)
+(B,C)
+(B,D)
+(D,E)
+(E,F )
+(B,G)
+(G,H)
+(G,I)
+(J,K)
+(K,L)
+(K,M)
+***
+A,B,C,D,E,F,G,H,I,J,K,L,M,N
+
