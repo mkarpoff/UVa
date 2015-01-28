@@ -1,20 +1,21 @@
-/* UVa problem: <number>
+/* UVa problem: 10000
  *
- * Topic: <topic>
+ * Topic: Graph theory
  *
- * Level: trivial/non-trivial
+ * Level: non-trivial
  * 
  * Brief problem description: 
  *
- *   ...
+ *   Find longest path in a DAG
  *
  * Solution Summary:
  *
- *   Algorithmic idea, data structures ...
+ *   Originally tried DFS using through all podential paths. -- VERY BAD
+ *	 Then Used Floyd-Warshall. -- Much better
  *
  * Used Resources:
  *
- *   ...
+ *   Text book a lot
  *
  * I hereby certify that I have produced the following solution myself 
  * using the resources listed above in accordance with the CMPUT 403 
@@ -25,12 +26,12 @@
 #include <iostream>
 #include <cstring>
 #include <utility>
+static const int INF = -1;
 
 using namespace std;
 
-void solve(int size, int start);
+void floyd_warshall(int size, int start);
 void print(int casenum, int size, int start);
-void print_graph(int size);
 void reset_adj(int size);
 
 int adj[100][100];
@@ -46,7 +47,7 @@ int main() {
 			adj[p-1][q-1] = 1;
 			cin >> p >> ws >> q >> ws;
 		}
-		solve( size, start );
+		floyd_warshall( size, start );
 		print( cnum, size, start);
 		cnum++;
 		cin >> size >> ws;
@@ -54,21 +55,18 @@ int main() {
 	return 0;
 }
 
-void solve(int size, int start) {
-	print_graph(size);
+void floyd_warshall(int size, int start) {
 	for (int k = 0; k < size; ++k) {
 		for (int i = 0; i < size; ++i) {
 			for (int j = 0; j < size; ++j) {
-	//			if ( adj[i][k] < size && size >  adj[k][j])
+				if (adj[i][k] != INF && adj[k][j] != INF )
 					adj[i][j] = max(adj[i][j], adj[i][k] + adj[k][j]);
 			}
 		}
 	}
-	print_graph(size);
 }
 
 void print(int casenum, int size, int start) {
-	print_graph(size);
 	int mx = 0, end = 0;
 	for( int i = 0; i < size; ++i) {
 		int t = adj[start-1][i];
@@ -87,25 +85,8 @@ void print(int casenum, int size, int start) {
 void reset_adj(int size) {
 	for (int i = 0; i < size; ++i) {
 		for (int j = 0; j < size; ++j) {
-			adj[i][j] = size;
+			adj[i][j] = INF;
 		}
 		adj[i][i] = 0;
 	}
-}
-
-void print_graph(int maxsize) {
-	return;
-	cout << "   ";
-	for (int i = 0; i < maxsize; ++i) {
-		cout << i << ' ';
-	}
-	cout << endl;
-	for (int j = 0; j < maxsize; ++j ){
-		cout << j << ": ";
-		for (int i = 0; i < maxsize; ++i ){
-			cout << adj[j][i] << ' ';
-		}
-		cout << endl;
-	}
-	cout << endl;
 }

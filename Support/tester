@@ -1,5 +1,5 @@
 #!/bin/bash
-#  tester v2.0.1
+#  tester v2.2.1
 #  
 #  Copyright (c) 2015 Marcus Karpoff <marcuskarpoff@gmail.com>
 #  
@@ -29,10 +29,24 @@ TESTBREAK="================================================\n"
 	WHITE='\033[0;37m'  
 
 if [[ $1 == "" ]]; then
-	EXE=ans
+	EXE="ans"
+	ALL=0
+elif [[ $1 == "--all" ]]; then
+	ALL=1
+	if [[ $2 == "" ]]; then
+		EXE="ans"
+	else
+		EXE=$2
+	fi
 else
 	EXE=$1
+	if [[ $2 == "" ]]; then
+		ALL=0
+	else
+		ALL=1
+	fi
 fi
+
 if [ ! -f $EXE ]; then
 	printf "${RED}No program named (${BLUE} $EXE ${RED}) found${WHITE}\n"
 	exit
@@ -56,7 +70,8 @@ NUMTESTS=$(ls TestFiles/Input/ | wc -l)
 printf "Num tests: ${RED}$NUMTESTS${WHITE}\n"
 for f in $(ls $Input); do
 		printf "$TESTBREAK"
-		./$EXE < $Input$f > temp
+		TIMEFORMAT='%3R'
+		TIME=$((time( ./$EXE < $Input$f > temp) >&2) 2>&1)
 		printf "TEST: ${RED}$f${RED}$WHITE\t"
 		if [ ! -f $Output$f ]; then
 			printf "${RED}No matching output file for input file (${BLUE} $f ${RED})\n${WHITE}"
@@ -84,7 +99,7 @@ for f in $(ls $Input); do
 			pad=$(printf '%0.1s' "-"{1..80})
 
 			if [ "$DIFF" != "" ]; then
-				printf "${RED}Failed${WHITE}\n"
+				printf "${RED}Failed\t${BLUE}${TIME}s${WHITE}\n"
 				printf "${RED}EXPECTED:${WHITE}"
 				printf "%*.*s" 0 $((COL - 12 )) "$pad"
 				printf "${BLUE}ACTUAL:${WHITE}\n"
@@ -93,11 +108,13 @@ for f in $(ls $Input); do
 				else
 					$DIFFPROG $EXP temp
 				fi
-				rm -f temp
-				printf "$TESTBREAK"
-				break
+				if [ $ALL -eq 0 ]; then
+					rm -f temp
+					printf "$TESTBREAK"
+					break
+				fi
 			else
-				printf "${GREEN}Passed${WHITE}\n"
+				printf "${GREEN}Passed\t${BLUE}${TIME}s${WHITE}\n"
 			fi
 		fi
 		rm -f temp
