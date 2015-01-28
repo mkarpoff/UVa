@@ -1,0 +1,50 @@
+#! /bin/bash
+
+	RED='\033[1;31m'          # Red
+	GREEN='\033[1;32m'        # Green
+	ORANGE='\033[0;33m'       # Yellow
+	BLUE='\033[1;34m'         # Blue
+	PURPLE='\033[0;35m'       # Purple
+	CYAN='\033[1;36m'         # Cyan
+	WHITE='\033[0;37m'  
+TTAG='.trivial.tag'
+NTAG='.non-tri.tag'
+STAG='.solved.tag'
+
+TRIV=0
+TSOL=0
+NONT=0
+NSOL=0
+
+for d in $(ls UVa); do
+	if [[ $(ls -a UVa/${d} | grep $TTAG ) != "" ]]; then
+		TRIV=$(expr $TRIV + 1)
+		if [[ $(ls -a UVa/${d} | grep $STAG ) != "" ]]; then
+			TSOL=$(expr $TSOL + 1)
+		fi
+	fi
+	if [[ $(ls -a UVa/${d} | grep $NTAG ) != "" ]]; then
+		NONT=$(expr $NONT + 1)
+		if [[ $(ls -a UVa/${d} | grep $STAG ) != "" ]]; then
+			NSOL=$(expr $NSOL + 1)
+		fi
+	fi
+done
+
+TPER=$(expr $TRIV \* 100)
+NPER=$(expr $NONT \* 100)
+TSPE=$(expr $TSOL \* 100)
+NSPE=$(expr $NSOL \* 100)
+
+TPER=$(expr $TPER / 30)
+NPER=$(expr $NPER / 30)
+TSPE=$(expr $TSPE / 30)
+NSPE=$(expr $NSPE / 30)
+
+printf "Solved:\n"
+printf "Trivial:    ${GREEN} %2.2d / 30\t%3.3d%%\n${WHITE}" $TSOL $TSPE
+printf "Non-Trivial:${GREEN} %2.2d / 30\t%3.3d%%\n${WHITE}" $NSOL $NSPE
+printf "\nAttempted:\n"
+printf "Trivial:    ${BLUE} %2.2d / 30\t%3.3d%%\n${WHITE}" $TRIV $TPER
+printf "Non-Trivial:${BLUE} %2.2d / 30\t%3.3d%%\n${WHITE}" $NONT $NPER
+printf "${WHITE}"

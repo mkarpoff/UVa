@@ -1,5 +1,20 @@
 #!/bin/bash
-
+#  tester v2.0.1
+#  
+#  Copyright (c) 2015 Marcus Karpoff <marcuskarpoff@gmail.com>
+#  
+#  Permission to use, copy, modify, and distribute this software for any
+#  purpose with or without fee is hereby granted, provided that the above
+#  copyright notice and this permission notice appear in all copies.
+#  
+#  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+#  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+#  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+#  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+#  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+#  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+#  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#  
 Input=TestFiles/Input/
 Output=TestFiles/Output/
 
@@ -55,7 +70,9 @@ for f in $(ls $Input); do
 				COL=$LLE
 			fi
 			COLSIZE=$COL
-			if [ $COLSIZE -gt 80 ]; then
+			SBS=1
+			if [ $COLSIZE -gt 50 ]; then
+				SBS=0
 				COLSIZE="`tput cols`"
 				COL=$(expr $COLSIZE / 2)
 			elif [ $COLSIZE -lt 12 ]; then
@@ -68,10 +85,14 @@ for f in $(ls $Input); do
 
 			if [ "$DIFF" != "" ]; then
 				printf "${RED}Failed${WHITE}\n"
-				printf "${BLUE}EXPECTED:${WHITE}"
+				printf "${RED}EXPECTED:${WHITE}"
 				printf "%*.*s" 0 $((COL - 12 )) "$pad"
-				printf "${RED}ACTUAL:${WHITE}\n"
-				$DIFFPROG -yW "$COLSIZE" $EXP temp
+				printf "${BLUE}ACTUAL:${WHITE}\n"
+				if [ $SBS -eq 1 ]; then
+					$DIFFPROG -yW "$COLSIZE" $EXP temp
+				else
+					$DIFFPROG $EXP temp
+				fi
 				rm -f temp
 				printf "$TESTBREAK"
 				break

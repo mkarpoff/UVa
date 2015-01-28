@@ -3,7 +3,7 @@ CFLAGS= -lm -lcrypt -O2 -std=c++11 -pipe -DONLINE_JUDGE -g
 EXE=ans
 SRC=./
 TESTSCRIPT=tester
-TESTFILE=TestFiles/Input/01
+TESTFILE=TestFiles/Input/1
 
 all: $(EXE)
 
