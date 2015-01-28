@@ -32,20 +32,29 @@ for d in $(ls UVa); do
 	fi
 done
 
+TOTA=$(expr $TRIV + $NONT)
+TOTS=$(expr $TSOL + $NSOL)
+
 TPER=$(expr $TRIV \* 100)
 NPER=$(expr $NONT \* 100)
 TSPE=$(expr $TSOL \* 100)
 NSPE=$(expr $NSOL \* 100)
+TOTAP=$(expr $TOTA \* 100)
+TOTSP=$(expr $TOTS \* 100)
 
 TPER=$(expr $TPER / 30)
 NPER=$(expr $NPER / 30)
 TSPE=$(expr $TSPE / 30)
 NSPE=$(expr $NSPE / 30)
+TOTAP=$(expr $TOTAP / 60)
+TOTSP=$(expr $TOTSP / 60)
 
 printf "Solved:\n"
 printf "Trivial:    ${GREEN} %2.2d / 30\t%3.3d%%\n${WHITE}" $TSOL $TSPE
 printf "Non-Trivial:${GREEN} %2.2d / 30\t%3.3d%%\n${WHITE}" $NSOL $NSPE
+printf "Total:      ${GREEN} %2.2d / 60\t%3.3d%%\n${WHITE}" $TOTS $TOTSP
 printf "\nAttempted:\n"
 printf "Trivial:    ${BLUE} %2.2d / 30\t%3.3d%%\n${WHITE}" $TRIV $TPER
 printf "Non-Trivial:${BLUE} %2.2d / 30\t%3.3d%%\n${WHITE}" $NONT $NPER
+printf "Total:      ${BLUE} %2.2d / 60\t%3.3d%%\n${WHITE}" $TOTA $TOTAP
 printf "${WHITE}"
