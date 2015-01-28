@@ -17,7 +17,7 @@ test: $(EXE)
 	$(TESTSCRIPT)
 
 testall: $(EXE)
-	$(TESTSCRIPT) --all
+	$(TESTSCRIPT) -a
 
 fresh: clean all
 

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# EVERY THING BELOW HERE SHOULD BE ADDED
+alias make='make_func'
+make_func() { 
+	if [[ $PWD == *"<PATH TO UVA TOP FOLDER>"* ]]; then
+		echo "Making using UVa makefile"
+		/usr/bin/make -f ~<PATH TO MAKE FILE> $*
+	else
+		/usr/bin/make $*
+	fi
+}
+
+# THIS CAN BE SKIPPED IF YOU PLACE tester in either /bin or /usr/bin
+alias tester='tester_func'
+tester_func() {
+	if [[ $PWD == *"/Cmput-403/UVa/"* ]]; then
+		~<PATH TO TEST SCRIPT> $*
+	fi
+}

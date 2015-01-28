@@ -7,6 +7,7 @@
 	PURPLE='\033[0;35m'       # Purple
 	CYAN='\033[1;36m'         # Cyan
 	WHITE='\033[0;37m'  
+
 TTAG='.trivial.tag'
 NTAG='.non-tri.tag'
 STAG='.solved.tag'

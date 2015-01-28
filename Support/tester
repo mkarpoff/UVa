@@ -1,6 +1,6 @@
 #!/bin/bash
-#  tester v2.2.1
-#  
+#  tester v3.0.1
+# 
 #  Copyright (c) 2015 Marcus Karpoff <marcuskarpoff@gmail.com>
 #  
 #  Permission to use, copy, modify, and distribute this software for any
@@ -15,11 +15,6 @@
 #  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 #  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #  
-Input=TestFiles/Input/
-Output=TestFiles/Output/
-
-TESTBREAK="================================================\n"
-
 	RED='\033[1;31m'          # Red
 	GREEN='\033[1;32m'        # Green
 	ORANGE='\033[0;33m'       # Yellow
@@ -27,56 +22,154 @@ TESTBREAK="================================================\n"
 	PURPLE='\033[0;35m'       # Purple
 	CYAN='\033[1;36m'         # Cyan
 	WHITE='\033[0;37m'  
+	UWHITE='\033[0;4;37m'  
+	BWHITE='\033[1;37m'
+	BUWHITE='\033[1;4;37m'
+TESTBREAK="================================================\n"
 
-if [[ $1 == "" ]]; then
-	EXE="ans"
-	ALL=0
-elif [[ $1 == "--all" ]]; then
-	ALL=1
-	if [[ $2 == "" ]]; then
-		EXE="ans"
+function print_help() {
+printf "
+${BWHITE}NAME
+\t${WHITE}tester - tests program\n
+
+${BWHITE}SYNOPSIS
+\ttester${WHITE} [${BWHITE}-i ${UWHITE}IN_FOLDER${WHITE}] [${BWHITE}-o ${UWHITE}OUT_FOLDER${WHITE}] [ ${UWHITE}OPTION${WHITE}]... [${UWHITE}FILE${WHITE}]
+
+${BWHITE}DESCRIPTION${WHITE}
+\tTest FILE by checking using files in ${UWHITE}IN_FOLDER${WHITE} agains ${UWHITE}OUT_FOLDER${WHITE}.
+\tIf ${UWHITE}FILE${WHITE} is left blank then it defaults to ${UWHITE}ans${WHITE}
+\tIf ${UWHITE}IN_FOLDER${WHITE} is left blank then it defaults to ${UWHITE}TestFolder/Input/${WHITE}
+\tIf ${UWHITE}OUT_FOLDER${WHITE} is left blank then it defaults to ${UWHITE}TestFolder/Output/${WHITE}
+
+\tFor full operation this program requires ${BWHITE}colordiff${WHITE} to be installed.
+
+\t${BWHITE}-a${WHITE}\tcontinue running after a failed case
+
+\t${BWHITE}-b${WHITE}\tuse bland colourless output
+
+\t${BWHITE}-i${WHITE}=${UWHITE}IN_FOLDER${WHITE}
+\t\tuse IN_FOLDER as folder for input files. default is TestFiles/Input/
+
+\t${BWHITE}-s${WHITE}\tdo not print erroneous outputs or diffs
+
+\t${BWHITE}-h, -?${WHITE}
+\t\tprint help page
+
+${BWHITE}AUTHOR${WHITE}
+\tWritten by Marcus Karpoff
+
+${BWHITE}COPYRIGHT${WHITE}
+\tCopyright (c) 2015 Marcus Karpoff 
+\t
+\tPermission to use, copy, modify, and distribute this software for any
+\tpurpose with or without fee is hereby granted, provided that the above
+\tcopyright notice and this permission notice appear in all copies.
+
+${BWHITE}WARRANTIES${WHITE}
+\tTHE SOFTWARE IS PROVIDED \"AS IS\" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+\tWITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+\tMERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+\tANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+\tWHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+\tACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+\tOR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+"
+}
+
+INPUT=TestFiles/Input/
+OUTPUT=TestFiles/Output/
+COLOR=1
+ALL=0
+SILENT=0
+EXE="ans"
+
+
+while [[ "$1" != "" ]]; do
+	if [[ "$1" == "-"* ]]; then
+		while getopts "\?hi:o:bsva" opt; do
+			case "$opt" in
+			a)
+				ALL=1;;
+			b)
+				COLOR=0;;
+			i)
+				INPUT="$OPTARG"
+				shift
+				;;
+			o)
+				OUTPUT="$OPTARG"
+				shift
+				;;
+			s)
+				SILENT=1;;
+			v)
+				echo "$VERSION"
+				exit
+				;;
+			h | ?)
+				print_help
+				exit
+				;;
+			esac
+		done
+		shift
 	else
-		EXE=$2
+		EXE=$1
+		shift
 	fi
-else
-	EXE=$1
-	if [[ $2 == "" ]]; then
-		ALL=0
-	else
-		ALL=1
-	fi
-fi
-
-if [ ! -f $EXE ]; then
-	printf "${RED}No program named (${BLUE} $EXE ${RED}) found${WHITE}\n"
-	exit
-fi
-if [ ! -d $Input ]; then
-	printf "${RED}No input folder named (${BLUE} TestFiles/Input/ ${RED})${WHITE}\n"
-	exit
-fi
-if [ ! -d $Output ]; then
-	printf "${RED}No output folder named (${BLUE} TestFiles/Output/ ${RED})${WHITE}\n"
-	exit
-fi
-
-
-printf "Program:${BLUE} $EXE${WHITE}\n"
+done
 DIFFPROG=$(command -v colordiff)
 if [ "$DIFFPROG" == "" ];	then
 	DIFFPROG=diff
 fi
-NUMTESTS=$(ls TestFiles/Input/ | wc -l)
+if [[ $COLOR -eq 0 ]]; then
+	RED=
+	GREEN=
+	ORANGE=
+	BLUE=
+	PURPLE=
+	CYAN=
+	WHITE=
+	UWHITE=
+	BWHITE=
+	BUWHITE=
+	DIFFPROG=diff
+fi
+case ${INPUT} in
+	*/) INPUT=$INPUT;;
+	*) INPUT=$INPUT/;;
+esac
+case ${OUTPUT} in
+	*/) OUTPUT=$OUTPUT;;
+	*) OUTPUT=$OUTPUT/;;
+esac
+
+if [ ! -f "$EXE" ]; then
+	printf "${RED}No program named (${BLUE} $EXE ${RED}) found${WHITE}\n"
+	exit
+fi
+if [ ! -d "$INPUT" ]; then
+	printf "${RED}No input folder named (${BLUE} TestFiles/Input/ ${RED})${WHITE}\n"
+	exit
+fi
+if [ ! -d "$OUTPUT" ]; then
+	printf "${RED}No output folder named (${BLUE} TestFiles/Output/ ${RED})${WHITE}\n"
+	exit
+fi
+
+printf "Program:${BLUE} $EXE${WHITE}\n"
+NUMTESTS=$( ls ${INPUT} | wc -l )
 printf "Num tests: ${RED}$NUMTESTS${WHITE}\n"
-for f in $(ls $Input); do
-		printf "$TESTBREAK"
-		TIMEFORMAT='%3R'
-		TIME=$((time( ./$EXE < $Input$f > temp) >&2) 2>&1)
-		printf "TEST: ${RED}$f${RED}$WHITE\t"
-		if [ ! -f $Output$f ]; then
+for f in $(ls "$INPUT" ); do
+		printf "${TESTBREAK}"
+		TIMEFORMAT="%3R"
+		TIME=$( ( time ( ./$EXE < ${INPUT}${f} > temp ) >&2 ) 2>&1 )
+		printf "TEST: ${RED}${f}${RED}${WHITE}\t"
+		if [ ! -f ${OUTPUT}${f} ]; then
 			printf "${RED}No matching output file for input file (${BLUE} $f ${RED})\n${WHITE}"
 		else
-			EXP=$Output$f
+			EXP=$OUTPUT$f
 			DIFF=$(diff temp $EXP)
 			LLE=$(wc -L $EXP | awk '{print $1}')
 			LLA=$(wc -L temp | awk '{print $1}')
@@ -120,3 +213,4 @@ for f in $(ls $Input); do
 		rm -f temp
 done
 printf "$TESTBREAK"
+
