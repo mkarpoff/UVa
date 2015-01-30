@@ -17,16 +17,16 @@ TSOL=0
 NONT=0
 NSOL=0
 
-for d in $(ls UVa); do
-	if [[ $(ls -a UVa/${d} | grep $TTAG ) != "" ]]; then
+for d in $(ls); do
+	if [[ $(ls -a ${d} | grep $TTAG ) != "" ]]; then
 		TRIV=$(expr $TRIV + 1)
-		if [[ $(ls -a UVa/${d} | grep $STAG ) != "" ]]; then
+		if [[ $(ls -a ${d} | grep $STAG ) != "" ]]; then
 			TSOL=$(expr $TSOL + 1)
 		fi
 	fi
-	if [[ $(ls -a UVa/${d} | grep $NTAG ) != "" ]]; then
+	if [[ $(ls -a ${d} | grep $NTAG ) != "" ]]; then
 		NONT=$(expr $NONT + 1)
-		if [[ $(ls -a UVa/${d} | grep $STAG ) != "" ]]; then
+		if [[ $(ls -a ${d} | grep $STAG ) != "" ]]; then
 			NSOL=$(expr $NSOL + 1)
 		fi
 	fi

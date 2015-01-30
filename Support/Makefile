@@ -10,6 +10,9 @@ all: $(EXE)
 $(EXE): $(SRC)*.C 
 		$(GCC) $(CFLAGS) -o $(EXE) $(SRC)*.C
 
+debug:
+		$(GCC) $(CFLAGS) -DDEBUG -o $(EXE) $(SRC)*.C
+
 run: $(EXE)
 	./$(EXE) < $(TESTFILE)
 

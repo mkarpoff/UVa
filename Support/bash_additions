@@ -12,9 +12,4 @@ make_func() {
 }
 
 # THIS CAN BE SKIPPED IF YOU PLACE tester in either /bin or /usr/bin
-alias tester='tester_func'
-tester_func() {
-	if [[ $PWD == *"/Cmput-403/UVa/"* ]]; then
-		~<PATH TO TEST SCRIPT> $*
-	fi
-}
+export PATH="$PATH:< PATH TO FOLDER CONTAINING TESTER >"

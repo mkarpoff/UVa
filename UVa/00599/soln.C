@@ -1,6 +1,6 @@
 /* UVa problem: 00599
  *
- * Topic: Data Structures
+ * Topic: Data Structures and Libraries
  *
  * Level: trivial
  * 

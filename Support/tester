@@ -1,5 +1,5 @@
 #!/bin/bash
-#  tester v3.0.1
+#  tester v3.0.2
 # 
 #  Copyright (c) 2015 Marcus Karpoff <marcuskarpoff@gmail.com>
 #  
@@ -15,6 +15,15 @@
 #  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 #  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #  
+VERSION="
+tester 3.0.2 
+Copyright (c) 2015 Marcus Karpoff
+Permission to use, copy, modify, and distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+Written by Marcus Karpoff.
+"
 	RED='\033[1;31m'          # Red
 	GREEN='\033[1;32m'        # Green
 	ORANGE='\033[0;33m'       # Yellow
@@ -48,7 +57,13 @@ ${BWHITE}DESCRIPTION${WHITE}
 \t${BWHITE}-b${WHITE}\tuse bland colourless output
 
 \t${BWHITE}-i${WHITE}=${UWHITE}IN_FOLDER${WHITE}
-\t\tuse IN_FOLDER as folder for input files. default is TestFiles/Input/
+\t\tuse IN_FOLDER as folder for input files. 
+\t\tdefault is TestFiles/Input/
+
+\t${BWHITE}-o${WHITE}=${UWHITE}OUT_FOLDER${WHITE}
+\t\tuse OUT_FOLDER as folder for input files. 
+\t\tdefault is TestFiles/Output/
+
 
 \t${BWHITE}-s${WHITE}\tdo not print erroneous outputs or diffs
 
@@ -104,7 +119,7 @@ while [[ "$1" != "" ]]; do
 			s)
 				SILENT=1;;
 			v)
-				echo "$VERSION"
+				printf "$VERSION"
 				exit
 				;;
 			h | ?)

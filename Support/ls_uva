@@ -1,0 +1,85 @@
+#! /bin/bash
+#  ls_uva v1.2.0
+# 
+#  Copyright (c) 2015 Marcus Karpoff <marcuskarpoff@gmail.com>
+#  
+#  Permission to use, copy, modify, and distribute this software for any
+#  purpose with or without fee is hereby granted, provided that the above
+#  copyright notice and this permission notice appear in all copies.
+#  
+#  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+#  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+#  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+#  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+#  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+#  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+#  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+	RED='\033[1;31m'          # Red
+	ORANGE='\033[0;33m'       # Yellow
+	UORANGE='\033[0;4;33m'       # Yellow
+	PURPLE='\033[0;35m'       # Purple
+	UPURPLE='\033[0;4;35m'       # Purple
+	WHITE='\033[0;37m'  
+
+TTAG='.trivial.tag'
+NTAG='.non-tri.tag'
+STAG='.solved.tag'
+
+ls_wrapper() {
+	OUT=
+	IGN=
+	NL="\n"
+	ISUVA=0
+
+	for folder in $(ls); do
+		if [ -d $folder ]; then
+			TRIV=0
+			NONT=0
+			SOLV=0
+			COLOR=
+			fcont=
+			if [[ $( ls -a ${folder} | grep $TTAG ) != "" ]]; then
+				TRIV=1
+			fi	
+			if [[ $( ls -a ${folder} | grep $NTAG ) != "" ]]; then
+				NONT=1
+			fi
+			if [[ $( ls -a ${folder} | grep $STAG ) != "" ]]; then
+				SOLV=1
+			fi
+			if (( $TRIV==0 && $NONT==0 && $SOLV==0));then
+				COLOR=
+				NL=
+			elif (( $TRIV==1 && $NONT==1 && $SOLV==1)); then
+				COLOR=$RED
+			elif (( $TRIV==1 && $SOLV==1 )); then
+				COLOR=$ORANGE
+			elif (( $TRIV==1)); then
+				COLOR=$UORANGE
+			elif (( $NONT==1 && $SOLV==1 )); then
+				COLOR=$PURPLE
+			elif (( $NONT==1 )); then
+				COLOR=$UPURPLE
+			fi
+			if [ "$COLOR" != "" ]; then
+				ISUVA=1
+				fline=$(ls $@ | grep $folder)
+				app="${COLOR}${fline}${WHITE} "
+				IGN=${IGN}"--ignore $folder "
+				OUT=${OUT}$app
+			fi
+		else 
+			NL=
+		fi
+	done
+	if (( $ISUVA == 1 )); then
+		printf "${UORANGE}Tivial${ORANGE} Trivial-solved ${UPURPLE}Non-Trivial${PURPLE} Non-Trivial-solved\n"
+		printf "${OUT}${NL}"
+		ls $IGN --color $@
+	else
+		ls --color
+	fi
+}
+
+ls_wrapper $@
