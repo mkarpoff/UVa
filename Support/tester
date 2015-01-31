@@ -1,5 +1,5 @@
 #!/bin/bash
-#  tester v3.0.2
+#  tester v4.0.1
 # 
 #  Copyright (c) 2015 Marcus Karpoff <marcuskarpoff@gmail.com>
 #  
@@ -16,7 +16,7 @@
 #  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #  
 VERSION="
-tester 3.0.2 
+tester 4.0.2 
 Copyright (c) 2015 Marcus Karpoff
 Permission to use, copy, modify, and distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -174,11 +174,12 @@ if [ ! -d "$OUTPUT" ]; then
 fi
 
 printf "Program:${BLUE} $EXE${WHITE}\n"
-NUMTESTS=$( ls ${INPUT} | wc -l )
+NUMTESTS=$( /bin/ls -l ${INPUT} | wc -l )
 printf "Num tests: ${RED}$NUMTESTS${WHITE}\n"
-for f in $(ls "$INPUT" ); do
+for f in $(/bin/ls "$INPUT" ); do
 		printf "${TESTBREAK}"
-		TIMEFORMAT="%3R"
+		TIMEFORMAT="%3Rs "
+		MEM=$( ( /usr/bin/time -f '%M kb' ./${EXE} < ${INPUT}${f} >/dev/null )2>&1 )
 		TIME=$( ( time ( ./$EXE < ${INPUT}${f} > temp ) >&2 ) 2>&1 )
 		printf "TEST: ${RED}${f}${RED}${WHITE}\t"
 		if [ ! -f ${OUTPUT}${f} ]; then
@@ -207,7 +208,7 @@ for f in $(ls "$INPUT" ); do
 			pad=$(printf '%0.1s' "-"{1..80})
 
 			if [ "$DIFF" != "" ]; then
-				printf "${RED}Failed\t${BLUE}${TIME}s${WHITE}\n"
+				printf "${RED}Failed\t${BLUE}${TIME} ${WHITE}\n"
 				printf "${RED}EXPECTED:${WHITE}"
 				printf "%*.*s" 0 $((COL - 12 )) "$pad"
 				printf "${BLUE}ACTUAL:${WHITE}\n"
@@ -222,7 +223,7 @@ for f in $(ls "$INPUT" ); do
 					break
 				fi
 			else
-				printf "${GREEN}Passed\t${BLUE}${TIME}s${WHITE}\n"
+				printf "${GREEN}Passed\t${BLUE}${TIME} ${MEM}${WHITE}\n"
 			fi
 		fi
 		rm -f temp

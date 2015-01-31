@@ -1,0 +1,35 @@
+/* UVa problem: <number>
+ *
+ * Topic: <topic>
+ *
+ * Level: trivial/non-trivial
+ * 
+ * Brief problem description: 
+ *
+ *   ...
+ *
+ * Solution Summary:
+ *
+ *   Algorithmic idea, data structures ...
+ *
+ * Used Resources:
+ *
+ *   ...
+ *
+ * I hereby certify that I have produced the following solution myself 
+ * using the resources listed above in accordance with the CMPUT 403 
+ * collaboration policy.
+ *
+ * --- Marcus Karpoff
+ */
+#include <iostream>
+
+using namespace std;
+
+int main() {
+	while (!cin.eof()) {
+
+
+	}
+	return 0;
+}

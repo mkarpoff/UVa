@@ -1,5 +1,5 @@
 #! /bin/bash
-#  ls_uva v1.2.0
+#  ls_uva v2.1.0
 # 
 #  Copyright (c) 2015 Marcus Karpoff <marcuskarpoff@gmail.com>
 #  
@@ -29,8 +29,8 @@ STAG='.solved.tag'
 ls_wrapper() {
 	OUT=
 	IGN=
-	NL="\n"
 	ISUVA=0
+	cols=0
 
 	for folder in $(ls); do
 		if [ -d $folder ]; then
@@ -38,7 +38,6 @@ ls_wrapper() {
 			NONT=0
 			SOLV=0
 			COLOR=
-			fcont=
 			if [[ $( ls -a ${folder} | grep $TTAG ) != "" ]]; then
 				TRIV=1
 			fi	
@@ -64,18 +63,23 @@ ls_wrapper() {
 			fi
 			if [ "$COLOR" != "" ]; then
 				ISUVA=1
-				fline=$(ls $@ | grep $folder)
+				fline=$(ls $@ | grep -x "$folder")
 				app="${COLOR}${fline}${WHITE} "
 				IGN=${IGN}"--ignore $folder "
-				OUT=${OUT}$app
+				tcols=$(expr $cols + ${#folder})
+				tcols=$(expr $tcols + 2)
+				if (( $tcols >= $(tput cols) )); then
+					OUT=${OUT}"\n$app "
+					cols=$(expr ${#folder} + 2)
+				else
+					OUT=${OUT}"$app "
+					cols=$tcols
+				fi
 			fi
-		else 
-			NL=
 		fi
 	done
 	if (( $ISUVA == 1 )); then
-		printf "${UORANGE}Tivial${ORANGE} Trivial-solved ${UPURPLE}Non-Trivial${PURPLE} Non-Trivial-solved\n"
-		printf "${OUT}${NL}"
+		printf "${OUT}${WHITE}\n"
 		ls $IGN --color $@
 	else
 		ls --color
