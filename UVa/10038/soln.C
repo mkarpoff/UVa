@@ -6,11 +6,13 @@
  * 
  * Brief problem description: 
  *
- *   ...
+ *   Find the diferences for a bunch of successive numbers and see if for n
+ *   numbers there are the diferences of 1 through n-1
  *
  * Solution Summary:
  *
- *   Algorithmic idea, data structures ...
+ *   bool array when a difference comes up set array[dif-1] to true
+ *   check that 0 through n-2 are set to true
  *
  * Used Resources:
  *

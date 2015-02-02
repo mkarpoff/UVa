@@ -1,6 +1,6 @@
 /* UVa problem: 10000
  *
- * Topic: Graph theory
+ * Topic: Graph Traversal
  *
  * Level: non-trivial
  * 

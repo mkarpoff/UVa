@@ -15,7 +15,7 @@
  *
  * Used Resources:
  *
- *   "Competitive Programming 3" - Steven Halim (pg 49-50)
+ *   ...
  *
  * I hereby certify that I have produced the following solution myself 
  * using the resources listed above in accordance with the CMPUT 403 

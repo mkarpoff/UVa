@@ -1,6 +1,6 @@
 /* UVa problem: 12646
  *
- * Topic: <topic>
+ * Topic: Other
  *
  * Level: trivial/non-trivial
  * 

@@ -1,6 +1,6 @@
 /* UVa problem: 10055
  *
- * Topic: Easy solns
+ * Topic: Arithmetics
  *
  * Level: trivial
  * 
@@ -14,7 +14,7 @@
  *
  * Used Resources:
  *
- *   
+ *   ...
  *
  * I hereby certify that I have produced the following solution myself 
  * using the resources listed above in accordance with the CMPUT 403 

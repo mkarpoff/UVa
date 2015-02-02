@@ -1,6 +1,6 @@
 /* UVa problem: 10815
  *
- * Topic: Data structures
+ * Topic: Data structures and Libraries
  *
  * Level: trivial
  * 

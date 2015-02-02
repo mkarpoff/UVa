@@ -1,6 +1,6 @@
-/* UVa problem: 100
+/* UVa problem: 00100
  *
- * Topic: <topic>
+ * Topic: Arithmatics
  *
  * Level: non-trivial
  * 

@@ -82,7 +82,7 @@ ls_wrapper() {
 		printf "${OUT}${WHITE}\n"
 		ls $IGN --color $@
 	else
-		ls --color
+		ls --color $@
 	fi
 }
 

@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# EVERY THING BELOW HERE SHOULD BE ADDED
 alias make='make_func'
 make_func() { 
 	if [[ $PWD == *"<PATH TO UVA TOP FOLDER>"* ]]; then
@@ -11,5 +10,5 @@ make_func() {
 	fi
 }
 
-# THIS CAN BE SKIPPED IF YOU PLACE tester in either /bin or /usr/bin
-export PATH="$PATH:< PATH TO FOLDER CONTAINING TESTER >"
+export PATH="$PATH:< PATH TO FOLDER CONTAINING >"
+source mark

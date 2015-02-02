@@ -19,6 +19,9 @@ run: $(EXE)
 rf: $(EXE)
 	./$(EXE) < ${f}
 
+r: $(EXE)
+	./$(EXE)
+
 test: $(EXE)
 	$(TESTSCRIPT)
 

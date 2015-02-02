@@ -1,5 +1,6 @@
-#!/bin/bash
-#  marker v1.0.1
+#! /bin/bash 
+
+#  marker v1.4.0
 # 
 #  Copyright (c) 2015 Marcus Karpoff <marcuskarpoff@gmail.com>
 #  
@@ -10,11 +11,23 @@
 #  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
 #  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
 #  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
-#  ANY SPECIAL, DIRLISTECT, INDIRLISTECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+#  ANY SPECIAL, DIRLISTECT, INDIRLISTECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGE
 #  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 #  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 #  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #  
+
+mark_dir () {
+	if (( $1 == 1)); then
+		if [ -f $2$3 ]; then
+			rm $2$3
+		else
+			touch $2$3
+		fi
+	fi
+}
+
+
 VERSION="
 mark1.0.1 
 Copyright (c) 2015 Marcus Karpoff
@@ -27,13 +40,58 @@ Written by Marcus Karpoff.
 USE_N=0
 USE_T=0
 USE_S=0
-DIRLIST=
+DIRLIST=""
 TTAG=".trivial.tag"
 NTAG=".non-tri.tag"
 STAG=".solved.tag"
 
+USE_DataSt=0
+USE_String=0
+USE_Sortin=0
+USE_Arithm=0
+USE_Combin=0
+USE_Number=0
+USE_Backtr=0
+USE_GraphT=0
+USE_GraphA=0
+USE_DynPro=0
+USE_Geomet=0
+USE_Other=0
+
+DataStTAG=".DataStructures.tag"
+StringTAG=".Strings.tag"
+SortinTAG=".Sorting.tag"
+ArithmTAG=".Arithmetic.tag"
+CombinTAG=".Combinatorics.tag"
+NumberTAG=".NumberTheory.tag"
+BacktrTAG=".Backtracking.tag"
+GraphTTAG=".GraphTraversal.tag"
+GraphATAG=".GraphAlgorithms.tag"
+DynProTAG=".DynamicProgramming.tag"
+GeometTAG=".Geometry.tag"
+OtherTAG=".Other.tag"
+
 while [[ "$1" != "" ]]; do
-	if [[ "$1" == "-"* ]]; then
+	if [[ "$1" == "--"* ]]; then
+		case "$1" in
+			--Data-Structures) USE_DataSt=1;;
+			--Strings) USE_String=1;;
+			--Sorting) USE_Sortin=1;;
+			--Arithmetic) USE_Arithm=1;;
+			--Combinatorics) USE_Combin=1;;
+			--Number-Theory) USE_Number=1;;
+			--Backtracking) USE_Backtr=1;;
+			--Graph-Traversal) USE_GraphT=1;;
+			--Graph-Algorithms) USE_GraphA=1;;
+			--Dynamic-Programming) USE_DynPro=1;;
+			--Geometry) USE_Geomet=1;;
+			--Other) USE_Other=1;;
+			--Trivial) USE_T=1;;
+			--Non-Trivial) USE_N=1;;
+			--Solved) USE_S=1;;
+		esac
+		shift
+	elif [[ "$1" == "-"* ]]; then
 		while getopts "NTSnts" opt; do
 			case "$opt" in
 			n | N)
@@ -54,38 +112,74 @@ while [[ "$1" != "" ]]; do
 		shift
 	fi
 done
-
-if [[ $DIRLIST == "" ]]; then
-	$DIRLIST="./"
+if [[ "$DIRLIST" == "" ]]; then
+	DIRLIST="./ "
 fi
-
 for DIR in $DIRLIST; do
 	case ${DIR} in
 		*/) DIR=$DIR;;
 		*) DIR=$DIR/;;
 	esac
 	if [ -d $DIR ]; then
-		if (( USE_N == 1 )); then
-			if [ -f $DIR$NTAG ]; then
-				rm $DIR$NTAG
-			else
-				touch $DIR$NTAG
-			fi
-		fi
-		if (( USE_T == 1 )); then
-			if [ -f $DIR$TTAG ]; then
-				rm $DIR$TTAG
-			else
-				touch $DIR$TTAG
-			fi
-		fi
-		if (( USE_S == 1 )); then
-			if [ -f $DIR$STAG ]; then
-				rm $DIR$STAG
-			else
-				touch $DIR$STAG
-			fi
-		fi
+		mark_dir $USE_N $DIR $NTAG
+		mark_dir $USE_T $DIR $TTAG
+		mark_dir $USE_S $DIR $STAG
+		mark_dir $USE_DataSt $DIR $DataStTAG
+		mark_dir $USE_String $DIR $StringTAG
+		mark_dir $USE_Sortin $DIR $SortinTAG
+		mark_dir $USE_Arithm $DIR $ArithmTAG
+		mark_dir $USE_Combin $DIR $CombinTAG
+		mark_dir $USE_Number $DIR $NumberTAG
+		mark_dir $USE_Backtr $DIR $BacktrTAG
+		mark_dir $USE_GraphT $DIR $GraphTTAG
+		mark_dir $USE_GraphA $DIR $GraphATAG
+		mark_dir $USE_DynPro $DIR $DynProTAG
+		mark_dir $USE_Geomet $DIR $GeometTAG
+		mark_dir $USE_Other  $DIR $OtherTAG
 	fi
 done
-	
+
+_mark () {
+	COMPREPLY=()
+	cur=${COMP_WORDS[COMP_CWORD]}
+	case "$cur" in
+		--*)
+			COMPREPLY=( $(compgen -W '--Data-Structures \
+																--Strings \
+																--Sorting \
+																--Arithmetic \
+																--Combinatorics \
+																--Number-Theory \
+																--Backtracking \
+																--Graph-Traversal \
+																--Graph-Algorithms \
+																--Dynamic-Programming \
+																--Geometry \
+																--Other \
+																--Trivial \
+																--Non-Trivial \
+																--Solved' -- $cur ) );;
+		-*)
+			COMPREPLY=( $(compgen -W '-t -T -n -N -s -S
+																--Data-Structures \
+																--Strings \
+																--Sorting \
+																--Arithmetic \
+																--Combinatorics \
+																--Number-Theory \
+																--Backtracking \
+																--Graph-Traversal \
+																--Graph-Algorithms \
+																--Dynamic-Programming \
+																--Geometry \
+																--Other \
+																--Trivial \
+																--Non-Trivial \
+																--Solved' -- $cur ) );;
+		*)
+			COMPREPLY=( $(compgen -f -- $cur ) );;
+	esac
+	return 0
+}
+
+complete -F _mark -o filenames mark
