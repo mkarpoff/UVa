@@ -18,7 +18,7 @@
 #  
 
 mark_dir () {
-	if (( $1 == 1)); then
+	if (( $1 == 1 )); then
 		if [ -f $2$3 ]; then
 			rm $2$3
 		else

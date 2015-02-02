@@ -38,19 +38,20 @@ ls_wrapper() {
 			NONT=0
 			SOLV=0
 			COLOR=
-			if [[ $( ls -a ${folder} | grep $TTAG ) != "" ]]; then
+			FCONT=$(ls -a ${folder})
+			if [[ $( grep $TTAG <<< $FCONT ) != "" ]]; then
 				TRIV=1
 			fi	
-			if [[ $( ls -a ${folder} | grep $NTAG ) != "" ]]; then
+			if [[ $( grep $NTAG <<< $FCONT ) != "" ]]; then
 				NONT=1
 			fi
-			if [[ $( ls -a ${folder} | grep $STAG ) != "" ]]; then
+			if [[ $( grep $STAG <<< $FCONT ) != "" ]]; then
 				SOLV=1
 			fi
 			if (( $TRIV==0 && $NONT==0 && $SOLV==0));then
 				COLOR=
 				NL=
-			elif (( $TRIV==1 && $NONT==1 && $SOLV==1)); then
+			elif (( $TRIV==1 && $NONT==1)); then
 				COLOR=$RED
 			elif (( $TRIV==1 && $SOLV==1 )); then
 				COLOR=$ORANGE

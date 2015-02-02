@@ -1,16 +1,17 @@
 #! /bin/bash
 
 Count_tag () {
-	STAG='.solved.tag'
-	local content="$1"
-	local tag="$2"
-	local tagcount="$3"
-	local stagcount="$4"
+	local dir="$1"
+	local content="$2"
+	local tag="$3"
+	local tagcount="$4"
+	local listofprops="$5"
 	if [[ $( grep $tag <<< "$content" ) != "" ]]; then
-		eval $5=$(expr $tagcount + 1)
-		if [[ $( grep $STAG <<< "$content" ) != "" ]]; then
-			eval $6=$(expr $stagcount + 1)
-		fi
+		eval $6=$(expr $tagcount + 1)
+		eval $7='"$listofprops$dir "'
+		return 1
+	else
+		return 0
 	fi
 }
 
@@ -23,6 +24,7 @@ Count_tag () {
 	CYAN='\033[1;36m'         # Cyan
 	WHITE='\033[0;37m'  
 
+STAG='.solved.tag'
 TTAG='.trivial.tag'
 NTAG='.non-tri.tag'
 
@@ -69,22 +71,87 @@ DynProTAG=".DynamicProgramming.tag"
 GeometTAG=".Geometry.tag"
 OtherTAG=".Other.tag"
 
+DataStLST=""
+StringLST=""
+SortinLST=""
+ArithmLST=""
+CombinLST=""
+NumberLST=""
+BacktrLST=""
+GraphTLST=""
+GraphALST=""
+DynProLST=""
+GeometLST=""
+OtherLST=""
+
 for dir in $(ls); do
 	cont=$(ls -a $dir)
-	Count_tag "$cont" $TTAG $TRIV $TSOL 'TRIV' 'TSOL'
-	Count_tag "$cont" $NTAG $NONT $NSOL 'NONT' 'NSOL'
-	Count_tag "$cont" $DataStTAG $DataStTRI $DataStSOL 'DataStTRI' 'DataStSOL'
-	Count_tag "$cont" $StringTAG $StringTRI $StringSOL 'StringTRI' 'StringSOL'
-	Count_tag "$cont" $SortinTAG $SortinTRI $SortinSOL 'SortinTRI' 'SortinSOL'
-	Count_tag "$cont" $ArithmTAG $ArithmTRI $ArithmSOL 'ArithmTRI' 'ArithmSOL'
-	Count_tag "$cont" $CombinTAG $CombinTRI $CombinSOL 'CombinTRI' 'CombinSOL'
-	Count_tag "$cont" $NumberTAG $NumberTRI $NumberSOL 'NumberTRI' 'NumberSOL'
-	Count_tag "$cont" $BacktrTAG $BacktrTRI $BacktrSOL 'BacktrTRI' 'BacktrSOL'
-	Count_tag "$cont" $GraphTTAG $GraphTTRI $GraphTSOL 'GraphTTRI' 'GraphTSOL'
-	Count_tag "$cont" $GraphATAG $GraphATRI $GraphASOL 'GraphATRI' 'GraphASOL'
-	Count_tag "$cont" $DynProTAG $DynProTRI $DynProSOL 'DynProTRI' 'DynProSOL'
-	Count_tag "$cont" $GeometTAG $GeometTRI $GeometSOL 'GeometTRI' 'GeometSOL'
-	Count_tag "$cont" $OtherTAG $OtherTRI $OtherSOL 'OtherTRI' 'OtherSOL'
+	found=""
+	if [[ $( grep $STAG <<< "$cont" ) != "" ]]; then
+		Count_tag "$dir" "$cont" $DataStTAG $DataStSOL "$DataStLST" 'DataStSOL' 'DataStLST'
+		if (( $? == 0 )); then
+			Count_tag "$dir" "$cont" $StringTAG $StringSOL "$StringLST" 'StringSOL' 'StringLST'
+		if (( $? == 0 )); then
+			Count_tag "$dir" "$cont" $SortinTAG $SortinSOL "$SortinLST" 'SortinSOL' 'SortinLST'
+		if (( $? == 0 )); then
+			Count_tag "$dir" "$cont" $ArithmTAG $ArithmSOL "$AtirhmLST" 'ArithmSOL' 'AtirhmLST'
+		if (( $? == 0 )); then
+			Count_tag "$dir" "$cont" $CombinTAG $CombinSOL "$CombinLST" 'CombinSOL' 'CombinLST'
+		if (( $? == 0 )); then
+			Count_tag "$dir" "$cont" $NumberTAG $NumberSOL "$NumberLST" 'NumberSOL' 'NumberLST'
+		if (( $? == 0 )); then
+			Count_tag "$dir" "$cont" $BacktrTAG $BacktrSOL "$BacktrLST" 'BacktrSOL' 'BacktrLST'
+		if (( $? == 0 )); then
+			Count_tag "$dir" "$cont" $GraphTTAG $GraphTSOL "$GraphTLST" 'GraphTSOL' 'GraphTLST'
+		if (( $? == 0 )); then
+			Count_tag "$dir" "$cont" $GraphATAG $GraphASOL "$GraphALST" 'GraphASOL' 'GraphALST'
+		if (( $? == 0 )); then
+			Count_tag "$dir" "$cont" $DynProTAG $DynProSOL "$DynProLST" 'DynProSOL' 'DynProLST'
+		if (( $? == 0 )); then
+			Count_tag "$dir" "$cont" $GeometTAG $GeometSOL "$GeometLST" 'GeometSOL' 'GeometLST'
+		if (( $? == 0 )); then
+			Count_tag "$dir" "$cont" $OtherTAG  $OtherSOL  "$OtherLST"  'OtherSOL'  'OtherLST'
+		fi fi fi fi fi fi fi fi fi fi fi
+		if [[ $( grep $NTAG <<< "$cont" ) != "" ]]; then
+			NONT=$(expr $NONT + 1)
+			NSOL=$(expr $NSOL + 1)
+		fi
+		if [[ $( grep $TTAG <<< "$cont" ) != "" ]]; then
+			TRIV=$(expr $TRIV + 1)
+			TSOL=$(expr $TSOL + 1)
+		fi
+	else
+		Count_tag "$dir" "$cont" $DataStTAG $DataStTRI "$DataStLST" 'DataStTRI' 'DataStLST'
+		if (( $? == 0 )); then
+			Count_tag "$dir" "$cont" $StringTAG $StringTRI "$StringLST" 'StringTRI' 'StringLST'
+		if (( $? == 0 )); then
+			Count_tag "$dir" "$cont" $SortinTAG $SortinTRI "$SortinLST" 'SortinTRI' 'SortinLST'
+		if (( $? == 0 )); then
+			Count_tag "$dir" "$cont" $ArithmTAG $ArithmTRI "$AtirhmLST" 'ArithmTRI' 'AtirhmLST'
+		if (( $? == 0 )); then
+			Count_tag "$dir" "$cont" $CombinTAG $CombinTRI "$CombinLST" 'CombinTRI' 'CombinLST'
+		if (( $? == 0 )); then
+			Count_tag "$dir" "$cont" $NumberTAG $NumberTRI "$NumberLST" 'NumberTRI' 'NumberLST'
+		if (( $? == 0 )); then
+			Count_tag "$dir" "$cont" $BacktrTAG $BacktrTRI "$BacktrLST" 'BacktrTRI' 'BacktrLST'
+		if (( $? == 0 )); then
+			Count_tag "$dir" "$cont" $GraphTTAG $GraphTTRI "$GraphTLST" 'GraphTTRI' 'GraphTLST'
+		if (( $? == 0 )); then
+			Count_tag "$dir" "$cont" $GraphATAG $GraphATRI "$GraphALST" 'GraphATRI' 'GraphALST'
+		if (( $? == 0 )); then
+			Count_tag "$dir" "$cont" $DynProTAG $DynProTRI "$DynProLST" 'DynProTRI' 'DynProLST'
+		if (( $? == 0 )); then
+			Count_tag "$dir" "$cont" $GeometTAG $GeometTRI "$GeometLST" 'GeometTRI' 'GeometLST'
+		if (( $? == 0 )); then
+			Count_tag "$dir" "$cont" $OtherTAG  $OtherTRI  "$OtherLST"  'OtherTRI' 'OtherSOL'
+		fi fi fi fi fi fi fi fi fi fi fi
+		if [[ $( grep $NTAG <<< "$cont" ) != "" ]]; then
+			NONT=$(expr $NONT + 1)
+		fi
+		if [[ $( grep $TTAG <<< "$cont" ) != "" ]]; then
+			TRIV=$(expr $TRIV + 1)
+		fi
+	fi
 done
 
 TOTA=$(expr $TRIV + $NONT)
@@ -112,17 +179,17 @@ printf "\nAttempted:\n"
 printf "Trivial:    ${BLUE} %2.2d / 30\t%3.3d%%\n${WHITE}" $TRIV $TPER
 printf "Non-Trivial:${BLUE} %2.2d / 30\t%3.3d%%\n${WHITE}" $NONT $NPER
 printf "Total:      ${BLUE} %2.2d / 60\t%3.3d%%\n${WHITE}" $TOTA $TOTAP
-printf "${WHITE}"
+printf "${WHITE}\n"
 
-printf "Data Structures:     A: %d S: %s\n" $DataStTRI $DataStSOL 
-printf "String:              A: %d S: %s\n" $StringTRI $StringSOL 
-printf "Sorting:             A: %d S: %s\n" $SortinTRI $SortinSOL 
-printf "Arithmetic:          A: %d S: %s\n" $ArithmTRI $ArithmSOL 
-printf "Combinatorics:       A: %d S: %s\n" $CombinTRI $CombinSOL 
-printf "Number Theory:       A: %d S: %s\n" $NumberTRI $NumberSOL 
-printf "Backtracking:        A: %d S: %s\n" $BacktrTRI $BacktrSOL 
-printf "Graph Traversal:     A: %d S: %s\n" $GraphTTRI $GraphTSOL 
-printf "Graph Algorithms:    A: %d S: %s\n" $GraphATRI $GraphASOL 
-printf "Dynamic Programming: A: %d S: %s\n" $DynProTRI $DynProSOL 
-printf "Geometry:            A: %d S: %s\n" $GeometTRI $GeometSOL 
-printf "Other:               A: %d S: %s\n" $OtherTRI $OtherSOL 
+printf "Data Structures:     A: %d S: %s\n" $DataStTRI $DataStSOL
+printf "String:              A: %d S: %s\n" $StringTRI $StringSOL
+printf "Sorting:             A: %d S: %s\n" $SortinTRI $SortinSOL
+printf "Arithmetic:          A: %d S: %s\n" $ArithmTRI $ArithmSOL
+printf "Combinatorics:       A: %d S: %s\n" $CombinTRI $CombinSOL
+printf "Number Theory:       A: %d S: %s\n" $NumberTRI $NumberSOL
+printf "Backtracking:        A: %d S: %s\n" $BacktrTRI $BacktrSOL
+printf "Graph Traversal:     A: %d S: %s\n" $GraphTTRI $GraphTSOL
+printf "Graph Algorithms:    A: %d S: %s\n" $GraphATRI $GraphASOL
+printf "Dynamic Programming: A: %d S: %s\n" $DynProTRI $DynProSOL
+printf "Geometry:            A: %d S: %s\n" $GeometTRI $GeometSOL
+printf "Other:               A: %d S: %s\n" $OtherTRI  $OtherSOL 
