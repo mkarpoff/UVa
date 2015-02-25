@@ -204,6 +204,7 @@ for f in $(/bin/ls "$INPUT" ); do
 				COL=12
 			else
 				COLSIZE=$(expr $COL \* 2)
+				COLSIZE=$(expr $COLSIZE + 5)
 			fi
 			pad=$(printf '%0.1s' "-"{1..80})
 
