@@ -25,18 +25,24 @@
 TTAG='.trivial.tag'
 NTAG='.non-tri.tag'
 STAG='.solved.tag'
+ATAG='soln.C'
 
 ls_wrapper() {
 	OUT=
 	IGN=
 	ISUVA=0
 	cols=0
+	MAX_WIDTH=120
+	if (( $MAX_WIDTH >= $(tput cols) )); then
+		MAX_WIDTH=$(tput cols)
+	fi
 
 	for folder in $(ls); do
 		if [ -d $folder ]; then
 			TRIV=0
 			NONT=0
 			SOLV=0
+			ATTE=1
 			COLOR=
 			FCONT=$(ls -a ${folder})
 			if [[ $( grep $TTAG <<< $FCONT ) != "" ]]; then
@@ -47,6 +53,9 @@ ls_wrapper() {
 			fi
 			if [[ $( grep $STAG <<< $FCONT ) != "" ]]; then
 				SOLV=1
+			fi
+			if [[ $(grep $ATAG <<< $FCONT ) != "" ]]; then
+				ATTE=0
 			fi
 			if (( $TRIV==0 && $NONT==0 && $SOLV==0));then
 				COLOR=
@@ -65,15 +74,19 @@ ls_wrapper() {
 			if [ "$COLOR" != "" ]; then
 				ISUVA=1
 				fline=$(ls $@ | grep -x "$folder")
-				app="${COLOR}${fline}${WHITE} "
+				if (( ATTE==0 )); then
+					app="${COLOR}${fline}${WHITE} "
+				else
+					app="${COLOR}E${fline}${WHITE}"
+				fi
 				IGN=${IGN}"--ignore $folder "
 				tcols=$(expr $cols + ${#folder})
-				tcols=$(expr $tcols + 2)
-				if (( $tcols >= $(tput cols) )); then
-					OUT=${OUT}"\n$app "
-					cols=$(expr ${#folder} + 2)
+				tcols=$(expr $tcols + 3)
+				if (( $tcols >= $MAX_WIDTH )); then
+					OUT=${OUT}"\n$app  "
+					cols=$(expr ${#folder} + 3)
 				else
-					OUT=${OUT}"$app "
+					OUT=${OUT}"$app  "
 					cols=$tcols
 				fi
 			fi

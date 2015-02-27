@@ -30,10 +30,10 @@
 using namespace std;
 
 int main() {
-	int cases, lcount, k, total;
+	long cases, lcount, k, total;
 	char c;
 	string line;
-	map<char, int> cost;
+	map<char, long> cost;
 	cin >> cases >> ws;
 	while (cases--) {
 		total=0;
@@ -41,7 +41,7 @@ int main() {
 		cost.clear();
 		while ( lcount-- ) {
 			cin >> c >> ws >> k >> ws;
-			cost.insert(pair<char, int>(c, k));
+			cost.insert(pair<char, long>(c, k));
 		}
 		cin >> lcount;
 		getline(cin, line);
@@ -53,7 +53,7 @@ int main() {
 			}
 		}	
 		cout << fixed;
-		cout << setprecision(2) << (((float) total) /100) << '$' << endl;
+		cout << setprecision(2) << (((double) total) /100) << '$' << endl;
 	}
 	return 0;
 }
