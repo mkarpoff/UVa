@@ -6,15 +6,15 @@
  * 
  * Brief problem description: 
  *
- *   ...
+ *   Find Longest Repeated Substring in a string
  *
  * Solution Summary:
  *
- *   Algorithmic idea, data structures ...
+ *   Suffix Array, LCP
  *
  * Used Resources:
  *
- *   ...
+ *   book Alot, like really alot
  *
  * I hereby certify that I have produced the following solution myself 
  * using the resources listed above in accordance with the CMPUT 403 
@@ -30,7 +30,7 @@
 
 using namespace std;
 
-#define MAX_N 1000
+#define MAX_N 1002
 string T;
 int n;
 int RA[MAX_N], tempRA[MAX_N];
@@ -49,20 +49,17 @@ int main() {
 		getline(cin, T);
 		n = T.size();
 		T[n++] = '$';
-		T[n] = 0;
 		constructSA();
 		computeLCP();
-		for (int i = 0; i < n; ++i ) {
-			printf( "i: %d SA: %d LCP: %d Suffix: %s\n", i, SA[i], LCP[i],  T.c_str() + SA[i]);
-		}
-		for (int i = 0; i < n; ++i ) {
-			printf( "i: %d Phi: %d PLCP: %d Suffix: %s\n", i, Phi[i], PLCP[i], T.c_str()+i);
-		}
 		int pos = 0;
 		for (int i = 0; i < n; ++i ) {
 			if (PLCP[i] > PLCP[pos]) {
+				pos = i;
+			} else if (PLCP[i] == PLCP[pos]) {
 				for (int j = 0; j < PLCP[i]; ++j) {
-					if ( ((int)T[j+i]) < ((int) T[j+pos]) ) {
+					if ( ((int) T[j+i]) > ((int) T[j+pos]) ) {
+						break;
+					} else if ( ((int) T[j+i]) < ((int) T[j+pos]) ) {
 						pos = i;
 					}
 				}
@@ -84,9 +81,7 @@ int main() {
 			for (int i = pos; i < pos + length; ++i) {
 				cout << T[i];
 			}
-			cout << " ";
-			cout << count;
-			cout << endl;
+			cout << " " << count << endl;
 		} else {
 			cout << "No repetitions found!" << endl;
 		}
