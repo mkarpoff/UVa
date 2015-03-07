@@ -6,11 +6,11 @@
  * 
  * Brief problem description: 
  *
- *   ...
+ *   count number of paths from one point to any other and then print graph 
  *
  * Solution Summary:
  *
- *   Algorithmic idea, data structures ...
+ *   Floyd Warshall (Small graph) 
  *
  * Used Resources:
  *
@@ -28,13 +28,12 @@
 
 using namespace std;
 
-const int INF = -1;
 const int MAX_N = 30;
 
 int adj_mat[MAX_N][MAX_N];
 int test = 0, P, l_seen;
 
-void print();
+void final_print();
 
 int main() {
 	cin >> ws;
@@ -51,26 +50,32 @@ int main() {
 			adj_mat[t1][t2] = 1;
 		}
 		l_seen++;
+		
 		for (int k = 0; k < l_seen; ++k) {
 		for (int i = 0; i < l_seen; ++i) {
 		for (int j = 0; j < l_seen; ++j) {
-			adj_mat[i][j] = adj_mat[i][j] + adj_mat[i][k] * adj_mat[k][j];
+			if (adj_mat[i][k] && adj_mat[k][j])
+				adj_mat[i][j] += adj_mat[i][k] * adj_mat[k][j];
 		}}}
 
+		for (int k = 0; k < l_seen; ++k) {
+		if (adj_mat[k][k]) {
+		for (int i = 0; i < l_seen; ++i) { 
+		for (int j = 0; j < l_seen; ++j) {
+		if (adj_mat[i][k] && adj_mat[k][j]) {
+			adj_mat[i][j] = -1;
+		}}}}}
 
 		cout << "matrix for city " << test++ << endl;
-		print();
+		final_print();
 	}
 		return 0;
 }
-void print() {
+
+void final_print() {
 	for (int i = 0; i < l_seen; ++i) {
 	for (int j = 0; j < l_seen; ++j) {
-		if (adj_mat[i][j] > P) {
-			cout << "-1";
-		} else {
 			cout << adj_mat[i][j];
-		}
 		if (j != l_seen-1) {
 			cout << " ";
 		} else {
