@@ -23,41 +23,53 @@
  * --- Marcus Karpoff
  */
 #include <iostream>
-#include <sstream>
-#include <string>
+#include <cmath>
 #include <vector>
 #include <map>
 
 using namespace std;
 
-struct vert {
-	int count ;
-	vector<int> neighbors;
-};
+const int MAX = 11000;
 
-map<int, vert> vertex;
 int V;
+int count[MAX] = {0};
+int parent[MAX] = {0};
+vector<int> children[MAX];
+int TOP;
+
+int dfsolv(int);
 
 int main() {
-	cin >> V >> ws;
-
+	cin >> V;
 	while (V) {
+		for(int i = 0; i <= V; ++i) {
+			children[i].clear();
+		}
 		for(int i = 0; i < V; ++i) {
 			int v, num, d, child;
 			cin >> v >> num >> d;
-			vertex[v].count = num;
+			count[v] = num;
+			if (!i) TOP = v;
 			for(int j = 0; j < d; ++j) {
 				cin >> child;
-				vertex[v].neighbors.push_back(child);
-				vertex[child].neighbors.push_back(v);
+				children[v].push_back(child);
+				parent[child] = v;
 			}
+			int count = 0;
 		}
-
-		
-
-		/* Next Case */
+		cout << dfsolv(TOP) << endl;
 		cin >> V;
 	}
-
 	return 0;
+}
+
+int dfsolv(int cur) {
+	int total = 0;
+	for (auto v: children[cur]) {
+		total += dfsolv(v);
+	}
+	int move = -(1 - count[cur]);
+	count[cur] = 1;
+	count[parent[cur]] += move;
+	return abs(move) + total;
 }
