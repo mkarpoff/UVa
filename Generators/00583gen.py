@@ -2,7 +2,7 @@
 
 from random import *
 
-num = 800 #randint(0, 800);
-print(num)
+num = randint(0, 800);
 for i in range(num):
-  print(randint(0, 10**16))
+  print(randint(-2**31, 2**31))
+print(0)
