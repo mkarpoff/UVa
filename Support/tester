@@ -16,7 +16,7 @@
 #  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #  
 VERSION="
-tester 4.0.2 
+tester 4.0.3 
 Copyright (c) 2015 Marcus Karpoff
 Permission to use, copy, modify, and distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -200,19 +200,16 @@ for f in $(/bin/ls "$INPUT" ); do
 				SBS=0
 				COLSIZE="`tput cols`"
 				COL=$(expr $COLSIZE / 2)
-			elif [ $COLSIZE -lt 12 ]; then
-				COLSIZE=24
-				COL=12
-			else
-				COLSIZE=$(expr $COL \* 2)
-				COLSIZE=$(expr $COLSIZE + 5)
+			 else
+			 	COLSIZE=$(expr $COL \* 2)
+			 	COLSIZE=$(expr $COLSIZE + 10)
 			fi
 			pad=$(printf '%0.1s' "-"{1..80})
 
 			if [ "$DIFF" != "" ]; then
 				printf "${RED}Failed\t${BLUE}${TIME} ${WHITE}\n"
 				printf "${RED}EXPECTED:${WHITE}"
-				printf "%*.*s" 0 $((COL - 12 )) "$pad"
+				printf "%*.*s" 0 $((COL - 5 )) "$pad"
 				printf "${BLUE}ACTUAL:${WHITE}\n"
 				if [ $SBS -eq 1 ]; then
 					$DIFFPROG -yW "$COLSIZE" $EXP temp
