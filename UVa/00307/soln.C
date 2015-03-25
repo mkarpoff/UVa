@@ -40,17 +40,17 @@ ull sum;
 int N;
 ull TARGET;
 
-bool dfs(int target, int start, int count) {
+bool backtrack(int target, int start, int count) {
 	if (count == N) return true;
 	for (int i = start-1; i >= 0; --i) {
 		if (vis[i]) continue;
 		if (target > parts[i]) {
 			vis[i] = true;
-			if (dfs(target - parts[i], i, count+1)) return true;
+			if (backtrack(target - parts[i], i, count+1)) return true;
 			vis[i] = false;
 		} else if (target == parts[i]) {
 			vis[i] = true;
-			if (dfs(TARGET, N, count+1)) return true;
+			if (backtrack(TARGET, N, count+1)) return true;
 			vis[i] = false;
 			return false;
 		}
@@ -65,7 +65,7 @@ bool find(int target) {
 	fill(vis.begin(), vis.end(), false);
 //	memset(vis, false, sizeof(vis[0]) * N);
 	TARGET = target;
-	return dfs(target, N, 1);
+	return backtrack(target, N, 1);
 }
 
 
