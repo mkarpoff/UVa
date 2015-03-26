@@ -47,7 +47,7 @@ int main() {
 			ll t, spot;
 			cin >> t;
 			spot = abs(t)%k;
-			if (t < 0) spot = k-spot;
+			if (t < 0) spot = (k-spot)%k;
 			u[spot].push_back(t);
 		}
 	
@@ -81,7 +81,7 @@ int main() {
 
 		// get the combos for the end and begin as the move to the center
 		for(int i = 1, j = k-1; i < j; ++i, --j) {
-			u[i].sort();
+			u[i].sort(); u[j].sort();
 			u[i].unique(); u[j].unique();
 			ans += u[i].size() * u[j].size();
 		}
