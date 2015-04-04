@@ -6,11 +6,16 @@
  * 
  * Brief problem description: 
  *
- *  find the prime factors of really freaking big numbers 
+ *  Find the two farthest adjacent primes and two closes adjacent primes in a
+ *	range
  *
  * Solution Summary:
  *
- *   Algorithmic idea, data structures ...
+ *   Because we know the size of the range is <= 1000000 and the max number will
+ *	 be 2^31 we can find all the primes <= sqrt(MAX). all the numbers in any 
+ *	 range between 0 -> 2^31, we know that all non primes will have on of the 
+ *	 first set of primes as a factor. This allows us to find all primes in that
+ *	 range without computing all primes <= 2^31
  *
  * Used Resources:
  *
@@ -31,17 +36,17 @@
 
 using namespace std;
 
-typedef unsigned long long ll;
+typedef long long ll;
 
-const ll s_size = 1<<16;//sqrt of max U value
+const ll s_size = (1<<16);// s_size > sqrt of max U value
 const ll d_size = 1000010;
 
-bitset<s_size> sieve;
-bitset<d_size> segsieve;
+vector<ll> primes;
+vector<ll> segprimes;
 
 void generate_primes();
 void generate_segprimes(ll,ll);
-void f_adj_primes(ll&,ll&,ll&,ll&,ll,ll);
+void print(ll,ll);
 
 int main() {
 	ll L, U;
@@ -54,10 +59,8 @@ int main() {
 			continue;
 		}
 		generate_segprimes(L, U);
-		ll C1 = 0, C2 = INT_MAX, D1 = 0, D2 = 0;
-		f_adj_primes(C1,C2,D1,D2,L,U);
-		if (C1 != 0 && C2 != INT_MAX && D1 != 0 && D2 != 0) {
-			printf("%lld,%lld are closest, %lld,%lld are most distant.\n", C1,C2,D1,D2);
+		if (segprimes.size() > 1) {
+			print(L,U);
 		} else {
 			printf("There are no adjacent primes.\n");
 		}
@@ -65,22 +68,18 @@ int main() {
 	return 0;
 }
 
-void f_adj_primes(ll & C1, ll & C2, ll & D1, ll & D2, ll L, ll U) {
-	ll lp;
-	for(ll i = 0; i <= U-L; ++i) {
-		if (segsieve.test(i)) {lp = i; break; }
-	}
-	for(ll i = lp+1; i <= U-L; ++i) { 
-		if (!segsieve.test(i)) continue;
-		ll delta = i - lp;
-		if (delta < C2 - C1) {
-			C2 = i+L; C1 = lp+L;
+void print(ll L, ll U) {
+	ll C1 = 0, C2 = INT_MAX, D1 = 0, D2 = 0;
+	for (int i = 1; i < segprimes.size(); ++i) {
+		ll delta = segprimes[i] - segprimes[i-1];
+		if ( delta < C2 - C1) {
+			C1 = segprimes[i-1]; C2 = segprimes[i];
 		}
 		if ( delta > D2 - D1) {
-			D2 = i+L; D1 = lp+L;
+			D1 = segprimes[i-1]; D2 = segprimes[i];
 		}
-		lp = i;
 	}
+	printf("%lld,%lld are closest, %lld,%lld are most distant.\n", C1,C2,D1,D2);
 }
 
 ll start(ll L, ll n) {
@@ -88,22 +87,36 @@ ll start(ll L, ll n) {
 	return max(L,n*n);
 }
 
-// Use a sieve of Eratosthenes
 void generate_segprimes(ll L, ll U) {
+	bitset<d_size> segsieve;
 	segsieve.set();
+	segprimes.clear();
 	ll SU = sqrt(U);
 	if (L == 1) { segsieve.set(0,0); }
-	for(ll i = 0; i <= SU; ++i) {
-		if (sieve.test(i)) {
-			for (ll c = start(L, i); c <= U ; c += i) { segsieve.set(c-L,0); 
-} } } }
+	for (auto i: primes) {
+		if (i > U) break;
+		for (ll c = start(L, i); c <= U ; c += i) { 
+			segsieve.set(c-L,0); 
+	} }
+	for (ll i = 0; i <= U-L; ++i){
+		if (segsieve.test(i)) segprimes.push_back(i+L);
+	}
+}
 
 void generate_primes() {
+	bitset<s_size> sieve;
 	sieve.set();
 	sieve.set(0,0);
 	sieve.set(1,0);
 	for(ll i = 4; i < s_size; i+=2) { sieve.set(i, 0); }
 	for(ll i = 3; i < s_size; i+=2) {
 		if (sieve.test(i)) {
-			for (ll c = i*i; c < s_size ; c += i) { sieve.set(c,0);
-}	} } }
+			for (ll c = i*i; c < s_size ; c += i) { 
+				sieve.set(c,0);
+	}	} } 
+
+	primes.reserve(6550);
+	for(int i = 0; i < s_size; ++i) {
+		if (sieve.test(i)) primes.push_back(i);
+	}
+}
