@@ -6,11 +6,13 @@
  * 
  * Brief problem description: 
  *
- *   ...
+ *  Balance a tree and calculate the number of moves it takes to balance it.
+ *	Move is defined as each object moved counts as a move
  *
  * Solution Summary:
  *
- *   Algorithmic idea, data structures ...
+ *  DFS and add to parents positive or negative moves total abs(of a move) is 
+ *	added to total
  *
  * Used Resources:
  *
@@ -25,6 +27,7 @@
 #include <iostream>
 #include <cmath>
 #include <vector>
+#include <cstring>
 #include <map>
 
 using namespace std;
@@ -32,24 +35,25 @@ using namespace std;
 const int MAX = 11000;
 
 int V;
-int count[MAX] = {0};
-int parent[MAX] = {0};
+int count[MAX];
+int parent[MAX];
 vector<int> children[MAX];
 int TOP;
 
 int dfsolv(int);
 
 int main() {
+	int v, num, d, child;
 	cin >> V;
 	while (V) {
+		memset(count, -1, sizeof count);
+		memset(parent, -1, sizeof parent);
 		for(int i = 0; i <= V; ++i) {
 			children[i].clear();
 		}
 		for(int i = 0; i < V; ++i) {
-			int v, num, d, child;
 			cin >> v >> num >> d;
 			count[v] = num;
-			if (!i) TOP = v;
 			for(int j = 0; j < d; ++j) {
 				cin >> child;
 				children[v].push_back(child);
@@ -57,7 +61,10 @@ int main() {
 			}
 			int count = 0;
 		}
-		cout << dfsolv(TOP) << endl;
+		while (parent[v] != -1) {
+			v = parent[v];
+		}
+		cout << dfsolv(v) << endl;
 		cin >> V;
 	}
 	return 0;
