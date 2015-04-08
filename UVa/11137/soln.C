@@ -10,7 +10,7 @@
  *
  * Solution Summary:
  *
- *   Algorithmic idea, data structures ...
+ *   DP straightforward
  *
  * Used Resources:
  *

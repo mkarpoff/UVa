@@ -11,7 +11,8 @@
  *
  * Solution Summary:
  *
- *   DP
+ *   Recursion. Won't go very deap beacuse at most the number of digits will
+ *	 stay the same
  *
  * Used Resources:
  *

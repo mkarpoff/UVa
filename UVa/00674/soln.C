@@ -6,11 +6,11 @@
  * 
  * Brief problem description: 
  *
- *   ...
+ *   coin change problem. Cound number of ways to make change
  *
  * Solution Summary:
  *
- *   Algorithmic idea, data structures ...
+ *   Straight forward DP
  *
  * Used Resources:
  *

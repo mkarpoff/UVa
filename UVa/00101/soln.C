@@ -6,7 +6,8 @@
  * 
  * Brief problem description: 
  *
- *   Make an easily maliable for moving data around
+ *  Take in a bunch of commands that modify a series of stacks. Show the output
+ *	after all the commands
  *
  * Solution Summary:
  *

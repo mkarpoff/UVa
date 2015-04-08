@@ -1,6 +1,6 @@
 /* UVa problem:: 10034
  *
- * Topic: 
+ * Topic: Graph algorithms
  *
  * Level: non-trivial
  * 

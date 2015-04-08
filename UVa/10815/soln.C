@@ -15,8 +15,7 @@
  *
  * Used Resources:
  *
- *  http://en.cppreference.com/w/
- *  http://www.cplusplus.com/reference/ 
+ *	 ...
  *
  * I hereby certify that I have produced the following solution myself 
  * using the resources listed above in accordance with the CMPUT 403 

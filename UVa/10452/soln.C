@@ -1,8 +1,8 @@
-/* UVa problem: <number>
+/* UVa problem: 10452
  *
- * Topic: <topic>
+ * Topic: Backtracking
  *
- * Level: trivial/non-trivial
+ * Level: trivial
  * 
  * Brief problem description: 
  *

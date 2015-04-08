@@ -10,7 +10,7 @@
  *
  * Solution Summary:
  *
- *   diff two numbers
+ *   diff two numbers, rough week needed a gimme
  *
  * Used Resources:
  *

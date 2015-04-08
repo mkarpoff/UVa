@@ -6,11 +6,11 @@
  * 
  * Brief problem description: 
  *
- *   Large mod
+ *   Large pow mod
  *
  * Solution Summary:
  *
- *   
+ *	Mod the intermediary parts 
  *
  * Used Resources:
  *

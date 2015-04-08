@@ -6,7 +6,7 @@
  * 
  * Brief problem description: 
  *
- *	There is a box that is being cut and you need to cut the output partitions
+ *	There is a box that is being cut and you need to count the output partitions
  *
  * Solution Summary:
  *

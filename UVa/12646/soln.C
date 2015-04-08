@@ -2,15 +2,16 @@
  *
  * Topic: Other
  *
- * Level: trivial/non-trivial
+ * Level: trivial
  * 
  * Brief problem description: 
  *
- *   ...
+ *   Find the odd man out
  *
  * Solution Summary:
  *
- *   Algorithmic idea, data structures ...
+ *   Represent the numbers as first is 0|3 0|4 0|5 from the sum we know exactly 
+ *	 which is the odd man out
  *
  * Used Resources:
  *

@@ -11,7 +11,8 @@
  *
  * Solution Summary:
  *
- *  Algorithmic idea, data structures ...
+ *  US CH to calculate the cost to surround a bunch of points and use 
+ *	backtracking to find the best solution
  *
  * Used Resources:
  *

@@ -6,11 +6,14 @@
  * 
  * Brief problem description: 
  *
- *   http://uva.onlinejudge.org/external/4/437.pdf
+ *   Typical Tower of Babalon problem
  *
  * Solution Summary:
  *
- *   Algorithmic idea, data structures ...
+ *   Treat every block as three vertecies in a dag. The outward edges all have a
+ *	 weight of the height of the block in a given orientation and the node can 
+ *	 only have an incoming edge if the preceding fertecy has a smaller width and
+ *	 depth. Then it's simple longest path.
  *
  * Used Resources:
  *

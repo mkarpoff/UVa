@@ -6,11 +6,11 @@
  * 
  * Brief problem description: 
  *
- *   ...
+ *   Convert input from a regular keyboard and output as a custom format
  *
  * Solution Summary:
  *
- *   Algorithmic idea, data structures ...
+ *   Giant switch statement
  *
  * Used Resources:
  *

@@ -1,6 +1,6 @@
 /* UVa problem: 10003
  *
- * Topic: <topic>
+ * Topic: Dynamic Programming
  *
  * Level: trivial
  * 

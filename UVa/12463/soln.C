@@ -1,8 +1,8 @@
-/* UVa problem: <number>
+/* UVa problem: 12463
  *
- * Topic: <topic>
+ * Topic: Combinatorics
  *
- * Level: trivial/non-trivial
+ * Level: trivial
  * 
  * Brief problem description: 
  *

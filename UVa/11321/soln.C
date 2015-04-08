@@ -10,7 +10,7 @@
  *
  * Solution Summary:
  *
- *   Use built in sorting alg
+ *   Use built in sorting alg and wrote custom compare function
  *
  * Used Resources:
  *

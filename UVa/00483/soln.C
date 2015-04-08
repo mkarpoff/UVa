@@ -1,16 +1,16 @@
-/* UVa problem: <number>
+/* UVa problem: 00437
  *
- * Topic: <topic>
+ * Topic: Strings
  *
- * Level: trivial/non-trivial
+ * Level: trivial
  * 
  * Brief problem description: 
  *
- *   invert char order in words but not word order in a string
+ *   Invert char order in words but not word order in a string
  *
  * Solution Summary:
  *
- *   Straightforward loop
+ *   Straightforward sweep with a stack for chars
  *
  * Used Resources:
  *

@@ -6,7 +6,8 @@
  * 
  * Brief problem description: 
  *
- *   find all shortest paths and then remove vertecies they use
+ *   find all shortest paths and then remove vertecies they use find shortest
+ *	 path
  *
  * Solution Summary:
  *

@@ -6,11 +6,15 @@
  * 
  * Brief problem description: 
  *
- *   ...
+ *  News agency pays money for articles according to some rules. Each character
+ *	has its own value (some characters may have value equals to zero). Author 
+ *	gets his payment as a sum of all character's values in the article. You 
+ *	have to determine the amount of money that news agency must pay to an 
+ *	author.
  *
  * Solution Summary:
  *
- *   Algorithmic idea, data structures ...
+ *  Count occurences of chars in a string store in map
  *
  * Used Resources:
  *

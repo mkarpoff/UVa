@@ -11,7 +11,7 @@
  *
  * Solution Summary:
  *
- *   
+ *   Stable sort base of compparing the cost of doing one task before the other
  *
  * Used Resources:
  *

@@ -2,7 +2,7 @@
  *
  * Topic: Backtracking
  *
- * Level: trivial/non-trivial
+ * Level: non-trivial
  * 
  * Brief problem description: 
  *

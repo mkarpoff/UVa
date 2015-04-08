@@ -6,11 +6,14 @@
  * 
  * Brief problem description: 
  *
- *   ...
+ *  You have a bunch of uniform sticks that are at most 50 units long. They are
+ *	then broken at random locations. You don't know how many sticks there were
+ *	originally or how long the were. Find the minimum length that they could
+ *	have been.
  *
  * Solution Summary:
  *
- *   Algorithmic idea, data structures ...
+ *   Straightforward backtracking solution
  *
  * Used Resources:
  *
@@ -34,8 +37,6 @@ typedef unsigned long long ull;
 int const MAX = 200;
 vector<int> parts;
 vector<bool> vis;
-//int parts[MAX];
-//bool vis[MAX];
 ull sum;
 int N;
 ull TARGET;
@@ -63,7 +64,6 @@ bool backtrack(int target, int start, int count) {
 
 bool find(int target) {
 	fill(vis.begin(), vis.end(), false);
-//	memset(vis, false, sizeof(vis[0]) * N);
 	TARGET = target;
 	return backtrack(target, N, 1);
 }
@@ -78,18 +78,14 @@ int main() {
 
 		for (int i = 0; i < N; ++i) {
 			int temp;
-		//	cin >> parts[i];
-		//	sum += parts[i];
 			cin >> temp;
 			parts.push_back(temp);
 			sum += temp;
 		}
 		
 		sort(parts.begin(), parts.end());
-//		sort(parts, parts+N);
 		int i;
 		for ( i = parts.back(); i <= sum; ++i) {
-//		for ( i = parts[N-1]; i <= sum; ++i) {
 			if (sum % i) continue;
 			if (find(i)) break;
 		}

@@ -1,6 +1,6 @@
 /* UVa problem: 11330
  *
- * Topic: Combinatorixs
+ * Topic: Combinatorics
  *
  * Level: non-trivial
  * 

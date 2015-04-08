@@ -6,11 +6,13 @@
  * 
  * Brief problem description: 
  *
- *   ...
+ *   Find the number of sums of two numbers in a set of numbers that are 
+ *	 divisible by a number k;
  *
  * Solution Summary:
  *
- *   Algorithmic idea, data structures ...
+ *   calculate the mods and then multiply the number of numbers in a category
+ *	 by the coresponding number in the other side of the array
  *
  * Used Resources:
  *
